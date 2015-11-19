@@ -10,18 +10,12 @@ client = Mongo::Client.new ['127.0.0.1:27017'], :database => 'cs336'
 
 pos_table = Set.new
 File.open(pos_file, 'r') do |file|
-	pos_table.merge file.each_line
-end
-pos_table.map! do |k,v|
-	k.chomp
+	pos_table.merge file.each_line.map(&:chomp)
 end
 
 neg_table = Set.new
 File.open(neg_file, 'r') do |file|
-	neg_table.merge file.each_line
-end
-neg_table.map! do |k,v|
-	k.chomp
+	neg_table.merge file.each_line.map(&:chomp)
 end
 
 responses = client[:unlabel_review].find.map do |review|
